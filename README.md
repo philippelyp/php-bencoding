@@ -11,7 +11,7 @@ Bencoding is an encoding algorithm used by the peer-to-peer file sharing system 
 * integers
 * lists
 
-Bencoding is part of the [BitTorrent specification](https://www.bittorrent.org/beps/bep_0003.html).  
+Bencoding is part of the [BitTorrent specification](https://www.bittorrent.org/beps/bep_0003.html).
 
 ---
 
@@ -32,15 +32,18 @@ $bencoding = new bencoding();
 After creation, the bencoding object offer 3 simple functions:
 
 ```php
-$value = $bencoding->decode($string);		// Return $string decoded or NULL if there was an error
+// Return $string decoded or NULL if there was an error
+$value = $bencoding->decode($string);
 ```
 
 ```php
-$string = $bencoding->encode($value);		// Return $value encoded or NULL if there was an error
+// Return $value encoded or NULL if there was an error
+$string = $bencoding->encode($value);
 ```
 
 ```php
-$last_error = $bencoding->last_error();		// Return the last error as a string
+// Return the last error as a string
+$last_error = $bencoding->last_error();
 ```
 
 ---
@@ -50,7 +53,10 @@ $last_error = $bencoding->last_error();		// Return the last error as a string
 ```php
 require_once('include/bencoding.inc.php');
 
-$value = array('key_1' => 'string', 'key_2' => 123456, 'key_3' => array('item_1', 'item_2', 'item_3'));
+$value = array(	'key_1' => 'string',
+				'key_2' => 123456,
+				'key_3' => array('item_1', 'item_2', 'item_3')
+				);
 
 // Create the bencoding object
 $bencoding = new bencoding();
