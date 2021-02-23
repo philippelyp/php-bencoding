@@ -54,9 +54,9 @@ $last_error = $bencoding->last_error();
 require_once('include/bencoding.inc.php');
 
 $value = array(	'key_1' => 'string',
-				'key_2' => 123456,
-				'key_3' => array('item_1', 'item_2', 'item_3')
-				);
+		'key_2' => 123456,
+		'key_3' => array('item_1', 'item_2', 'item_3')
+		);
 
 // Create the bencoding object
 $bencoding = new bencoding();
