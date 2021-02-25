@@ -35,9 +35,18 @@ class bencoding
 	// Variables
 	//
 
-	private $last_error;
+	private $error;
 	private $string;
 	private $position;
+
+	//
+	// __construct
+	//
+
+	function __construct()
+	{
+		$this->error = '';
+	}
 
 	//
 	// __decode
@@ -83,7 +92,7 @@ class bencoding
 				return self::parse_string();
 
 			default:
-				throw new exception('unsupported type');
+				throw new exception('Unsupported type');
 		}
 	}
 
@@ -93,13 +102,13 @@ class bencoding
 
 	function decode($string)
 	{
-		$this->last_error = '';
+		$this->error = '';
 		$this->string = $string;
 		$this->position = 0;
 		try {
 			return self::__decode();
 		} catch (exception $e) {
-			$this->last_error = $e->getMessage();
+			$this->error = $e->getMessage();
 			return NULL;
 		}
 	}
@@ -135,7 +144,7 @@ class bencoding
 		if (TRUE == is_string($value)) {
 			return strlen($value) . ':' . $value;
 		}
-		throw new exception('unsupported type');
+		throw new exception('Unsupported type');
 	}
 
 	//
@@ -144,22 +153,22 @@ class bencoding
 
 	function encode($value)
 	{
-		$this->last_error = '';
+		$this->error = '';
 		try {
 			return self::__encode($value);
 		} catch (exception $e) {
-			$this->last_error = $e->getMessage();
+			$this->error = $e->getMessage();
 			return NULL;
 		}
 	}
 
 	//
-	// last_error
+	// error
 	//
 
-	function last_error()
+	function error()
 	{
-		return $this->last_error;
+		return $this->error;
 	}
 
 	//
@@ -169,12 +178,12 @@ class bencoding
 	private function parse_int() {
 		$delimiter_position = strpos($this->string, 'e', $this->position);
 		if (FALSE === $delimiter_position) {
-			throw new exception('end delimiter not found');
+			throw new exception('End delimiter not found');
 		}
 		$int_length = $delimiter_position - $this->position;
 		$int = self::read($int_length);
 		if (FALSE == is_numeric($int)) {
-			throw new exception('int is not numeric');
+			throw new exception('Integer is not numeric');
 		}
 		$this->position += $int_length + 1;
 		return intval($int);
@@ -188,17 +197,17 @@ class bencoding
 	{
 		$delimiter_position = strpos($this->string, ':', $this->position);
 		if (FALSE === $delimiter_position) {
-			throw new exception('end delimiter not found');
+			throw new exception('End delimiter not found');
 		}
 		$int_length = $delimiter_position - $this->position;
 		$int = self::read($int_length);
 		if (FALSE == is_numeric($int)) {
-			throw new exception('string lenght is not numeric');
+			throw new exception('String lenght is not numeric');
 		}
 		$this->position += $int_length + 1;
 		$int = intval($int);
 		if ($int < 0) {
-			throw new exception('string lenght is negative');
+			throw new exception('String lenght is negative');
 		}
 		$string = self::read($int);
 		$this->position += $int;
@@ -213,7 +222,7 @@ class bencoding
 	{
 		$string = @substr($this->string, $this->position, $length);
 		if ((FALSE === $string) || ($length != strlen($string))) {
-			throw new exception('could not read');
+			throw new exception('Truncated data');
 		}
 		return $string;
 	}

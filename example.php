@@ -31,9 +31,9 @@ $bencoding = new bencoding();
 // Encode $value
 $string = $bencoding->encode($value);
 if (NULL === $string) {
-    echo $bencoding->last_error() . PHP_EOL;
+	echo $bencoding->error() . PHP_EOL;
 } else {
-    var_dump($string);
+	var_dump($string);
 }
 
 echo PHP_EOL;
@@ -41,7 +41,7 @@ echo PHP_EOL;
 // Decode $string
 $value = $bencoding->decode($string);
 if (NULL === $value) {
-    echo $bencoding->last_error() . PHP_EOL;
+	echo $bencoding->error() . PHP_EOL;
 } else {
-    var_dump($value);
+	var_dump($value);
 }
